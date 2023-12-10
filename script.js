@@ -1,5 +1,4 @@
 const deviceIdSelect = document.getElementById('deviceId');
-const apiKey = document.getElementById('apiKey');
 const onBtn = document.getElementById('onBtn');
 const offBtn = document.getElementById('offBtn');
 
@@ -22,7 +21,8 @@ function sendRequest(method, url, data) {
   const xhr = new XMLHttpRequest();
   xhr.open(method, url, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.setRequestHeader('Authorization', `Bearer ${apiKey.value}`);
+  // Use the pre-defined bearer token directly
+  xhr.setRequestHeader('Authorization', `Bearer 68300e1918276185d6a748322ae161319f93bd36`);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
