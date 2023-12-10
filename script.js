@@ -49,12 +49,7 @@ function sendRequest(method, url, data) {
   xhr.send(JSON.stringify(data));
 }
 
-deviceIdSelect.addEventListener('change', () => {
-  const deviceId = deviceIdSelect.value;
 
-  // Update button texts based on selected device ID
-  updateButtonTexts(deviceId);
-});
 
 onBtn.addEventListener('click', () => {
   sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceIdSelect.value}/toggle`, {
