@@ -1,82 +1,56 @@
 body {
-    font-family: Roboto, sans-serif;
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    background-color: var(--surface-color);
-  }
-  
-  h1 {
-    font-size: 1.75em;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-  }
-  
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .container > * {
-    margin: 10px;
-  }
-  
-  label {
-    width: 150px;
-    text-align: right;
-    font-weight: bold;
-    color: var(--on-surface-color);
-  }
-  
-  input {
-    flex: 1;
-    padding: 5px 10px;
-    border: 1px solid var(--outline-color);
-    border-radius: 4px;
-    background-color: var(--surface-color);
-    font-size: 16px;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  #onBtn {
-    background-color: var(--success-color);
-    color: var(--on-success-color);
-  }
-  
-  #offBtn {
-    background-color: var(--error-color);
-    color: var(--on-error-color);
-  }
-  
-  button:hover {
-    background-color: var(--primary-color);
-  }
-  
-  @media (min-width: 768px) {
-    .container {
-      width: 700px;
-    }
-  }
-  
+  font-family: 'Arial', sans-serif;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  color: #3498db;
+}
+
+.container {
+  margin: 20px auto;
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #3498db;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  padding: 15px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#onBtn {
+  background-color: #2ecc71;
+  color: #ecf0f1;
+}
+
+#offBtn {
+  background-color: #e74c3c;
+  color: #ecf0f1;
+}
