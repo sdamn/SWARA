@@ -1,3 +1,10 @@
+// Use navigator.storage API to estimate storage usage and quota
+navigator.storage.estimate().then(estimate => {
+  console.log(`Usage: ${estimate.usage}, Quota: ${estimate.quota}`);
+});
+
+// Your other existing code...
+
 const deviceIdSelect = document.getElementById('deviceId');
 const onBtn = document.getElementById('onBtn');
 const offBtn = document.getElementById('offBtn');
