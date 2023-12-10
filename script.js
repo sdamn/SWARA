@@ -26,7 +26,7 @@ function sendRequest(method, url, body) {
   xhr.open(method, url, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   // Replace with your actual bearer token
-  xhr.setRequestHeader('Authorization', 'Bearer <YOUR_BEARER_TOKEN>');
+  xhr.setRequestHeader('Authorization', 'Bearer 68300e1918276185d6a748322ae161319f93bd36');
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
@@ -46,7 +46,7 @@ deviceSelect.addEventListener('change', () => {
 });
 
 tubelightOnBtn.addEventListener('click', () => {
-  sendRequest('POST', '/api/devices/tubelight/toggle', {
+  sendRequest('POST', 'https://backend.tinxy.in/v2/devices/646838f4ea1d1bf0bd4a01a5/toggle', {
     "request": {
       "state": 1, // Turn on
       "brightness": 0 // Brightness level
@@ -55,7 +55,7 @@ tubelightOnBtn.addEventListener('click', () => {
 });
 
 tubelightOffBtn.addEventListener('click', () => {
-  sendRequest('POST', '/api/devices/tubelight/toggle', {
+  sendRequest('POST', 'https://backend.tinxy.in/v2/devices/646838f4ea1d1bf0bd4a01a5/toggle', {
     "request": {
       "state": 0 // Turn off
     }
