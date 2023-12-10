@@ -3,8 +3,6 @@ navigator.storage.estimate().then(estimate => {
   console.log(`Usage: ${estimate.usage}, Quota: ${estimate.quota}`);
 });
 
-// Your other existing code...
-
 const deviceIdSelect = document.getElementById('deviceId');
 const onBtn = document.getElementById('onBtn');
 const offBtn = document.getElementById('offBtn');
@@ -54,10 +52,12 @@ function sendRequest(method, url, data) {
     return response.json();
   })
   .then(data => {
-    console.log('Device state updated successfully.', data);
+    // Replace console.log with alert
+    alert('Device state updated successfully.');
   })
   .catch(error => {
-    console.error('Error:', error);
+    // Replace console.error with alert
+    alert('Error: ' + error.message);
   });
 }
 
