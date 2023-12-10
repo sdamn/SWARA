@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tinxy Device Control</title>
+</head>
+<body>
+    <h1>Tinxy Device Control</h1>
+
+    <label for="deviceId">Device ID: </label>
+    <input type="text" id="deviceId" placeholder="Enter device ID">
+    <br>
+
+    <label for="apiKey">API Key: </label>
+    <input type="password" id="apiKey" placeholder="Enter API key">
+    <br>
+
+    <button id="onBtn">Turn ON</button>
+    <button id="offBtn">Turn OFF</button>
+
+    <script>
+        const deviceId = document.getElementById('deviceId');
+        const apiKey = document.getElementById('apiKey');
+        const onBtn = document.getElementById('onBtn');
+        const offBtn = document.getElementById('offBtn');
+
+        const bodyData = {
+            "request": {
+                "state": 1, // Initial state (ON)
+                "brightness": 0 // Brightness level
+            },
+            "deviceNumber": 3 // Device number
+        };
+
+        function sendRequest(method, url, data) {
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('Authorization', `Bearer ${apiKey.value}`);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log('Device state updated successfully.');
+                    } else {
+                        console.error('Error:', xhr.responseText);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(data));
+        }
+
+        onBtn.addEventListener('click', () => {
+            sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceId.value}/toggle`, {
+                ...bodyData, // Spread existing data
+                toggle: 1 // Add toggle property for turning ON
+            });
+        });
+
+        offBtn.addEventListener('click', () => {
+            sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceId.value}/toggle`, {
+                ...bodyData, // Spread existing data
+                toggle: 0 // Add toggle property for turning OFF
+            });
+        });
+    </script>
+</body>
+</html>
