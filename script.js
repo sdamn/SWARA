@@ -1,32 +1,42 @@
-const deviceSelect = document.getElementById('device');
-const buttonsContainer = document.querySelector('.buttons');
-const tubelightOnBtn = document.getElementById('tubelightOn');
-const tubelightOffBtn = document.getElementById('tubelightOff');
-const sofaLightOnBtn = document.getElementById('sofaLightOn');
-const sofaLightOffBtn = document.getElementById('sofaLightOff');
+const deviceIdSelect = document.getElementById('deviceId');
+const onBtn = document.getElementById('onBtn');
+const offBtn = document.getElementById('offBtn');
 
-function updateButtonVisibility(selectedDevice) {
-  if (selectedDevice === 'device1') {
-    tubelightOnBtn.hidden = false;
-    tubelightOffBtn.hidden = false;
-    sofaLightOnBtn.hidden = false;
-    sofaLightOffBtn.hidden = false;
-  } else if (selectedDevice === 'sofaLight') {
-    tubelightOnBtn.hidden = true;
-    tubelightOffBtn.hidden = true;
-    sofaLightOnBtn.hidden = false;
-    sofaLightOffBtn.hidden = false;
+const bodyData = {
+  "request": {
+    "state": 1, // Initial state (ON)
+    "brightness": 0 // Brightness level
+  },
+  "deviceNumber": 3 // Device number
+};
+
+const bodyDataOff = {
+  "request": {
+    "state": 0 // Turn device off
+  },
+  "deviceNumber": 3 // Device number
+};
+
+function updateButtonTexts(deviceId) {
+  if (deviceId === '646838f4ea1d1bf0bd4a01a5') {
+    onBtn.textContent = 'Tubelight 1 On';
+    offBtn.textContent = 'Tubelight 1 Off';
+  } else if (deviceId === '648c5ff203543e4e86c0d086') {
+    onBtn.textContent = 'Tubelight 2 On';
+    offBtn.textContent = 'Tubelight 2 Off';
   } else {
-    buttonsContainer.hidden = true;
+    // Fallback for unknown devices
+    onBtn.textContent = 'Turn ON';
+    offBtn.textContent = 'Turn OFF';
   }
 }
 
-function sendRequest(method, url, body) {
+function sendRequest(method, url, data) {
   const xhr = new XMLHttpRequest();
   xhr.open(method, url, true);
   xhr.setRequestHeader('Content-Type', 'application/json');
-  // Replace with your actual bearer token
-  xhr.setRequestHeader('Authorization', 'Bearer 68300e1918276185d6a748322ae161319f93bd36');
+  // Use the pre-defined bearer token directly
+  xhr.setRequestHeader('Authorization', `Bearer 68300e1918276185d6a748322ae161319f93bd36`);
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
       if (xhr.status === 200) {
@@ -36,45 +46,23 @@ function sendRequest(method, url, body) {
       }
     }
   };
-  xhr.send(JSON.stringify(body));
+  xhr.send(JSON.stringify(data));
 }
 
-deviceSelect.addEventListener('change', () => {
-  const selectedDevice = deviceSelect.value;
-  buttonsContainer.hidden = false;
-  updateButtonVisibility(selectedDevice);
+deviceIdSelect.addEventListener('change', () => {
+  const deviceId = deviceIdSelect.value;
+
+  // Update button texts based on selected device ID
+  updateButtonTexts(deviceId);
 });
 
-tubelightOnBtn.addEventListener('click', () => {
-  sendRequest('POST', 'https://backend.tinxy.in/v2/devices/646838f4ea1d1bf0bd4a01a5/toggle', {
-    "request": {
-      "state": 1, // Turn on
-      "brightness": 0 // Brightness level
-    }
+onBtn.addEventListener('click', () => {
+  sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceIdSelect.value}/toggle`, {
+    ...bodyData, // Spread existing data
+    toggle: 1 // Add toggle property for turning ON
   });
 });
 
-tubelightOffBtn.addEventListener('click', () => {
-  sendRequest('POST', 'https://backend.tinxy.in/v2/devices/646838f4ea1d1bf0bd4a01a5/toggle', {
-    "request": {
-      "state": 0 // Turn off
-    }
-  });
-});
-
-sofaLightOnBtn.addEventListener('click', () => {
-  sendRequest('POST', '/api/devices/sofaLight/toggle', {
-    "request": {
-      "state": 1, // Turn on
-      "brightness": 0 // Brightness level
-    }
-  });
-});
-
-sofaLightOffBtn.addEventListener('click', () => {
-  sendRequest('POST', '/api/devices/sofaLight/toggle', {
-    "request": {
-      "state": 0 // Turn off
-    }
-  });
+offBtn.addEventListener('click', () => {
+  sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceIdSelect.value}/toggle`, bodyDataOff); // Use specific bodyDataOff object for turning off
 });
