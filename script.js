@@ -9,8 +9,8 @@ function updateButtonVisibility(selectedDevice) {
   if (selectedDevice === 'device1') {
     tubelightOnBtn.hidden = false;
     tubelightOffBtn.hidden = false;
-    sofaLightOnBtn.hidden = true;
-    sofaLightOffBtn.hidden = true;
+    sofaLightOnBtn.hidden = false;
+    sofaLightOffBtn.hidden = false;
   } else if (selectedDevice === 'sofaLight') {
     tubelightOnBtn.hidden = true;
     tubelightOffBtn.hidden = true;
