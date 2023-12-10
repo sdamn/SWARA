@@ -12,7 +12,8 @@ const bodyData = {
 
 const bodyDataOff = {
   "request": {
-    "state": 0 // Turn device off
+    "state": 0, // Turn device off
+    "brightness": 0 // Brightness level
   },
   "deviceNumber": 3 // Device number
 };
