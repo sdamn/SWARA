@@ -32,24 +32,27 @@ function updateButtonTexts(deviceId) {
 }
 
 function sendRequest(method, url, data) {
-  const xhr = new XMLHttpRequest();
-  xhr.open(method, url, true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  // Use the pre-defined bearer token directly
-  xhr.setRequestHeader('Authorization', `Bearer 68300e1918276185d6a748322ae161319f93bd36`);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        console.log('Device state updated successfully.');
-      } else {
-        console.error('Error:', xhr.responseText);
-      }
+  return fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer 68300e1918276185d6a748322ae161319f93bd36`
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
-  };
-  xhr.send(JSON.stringify(data));
+    return response.json();
+  })
+  .then(data => {
+    console.log('Device state updated successfully.', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
-
-
 
 onBtn.addEventListener('click', () => {
   sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceIdSelect.value}/toggle`, {
