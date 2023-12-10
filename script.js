@@ -12,11 +12,24 @@ const bodyData = {
 
 const bodyDataOff = {
   "request": {
-    "state": 0, // Turn device off
-    "brightness": 0 // Brightness level
+    "state": 0 // Turn device off
   },
   "deviceNumber": 3 // Device number
 };
+
+function updateButtonTexts(deviceId) {
+  if (deviceId === '646838f4ea1d1bf0bd4a01a5') {
+    onBtn.textContent = 'Tubelight 1 On';
+    offBtn.textContent = 'Tubelight 1 Off';
+  } else if (deviceId === '648c5ff203543e4e86c0d086') {
+    onBtn.textContent = 'Tubelight 2 On';
+    offBtn.textContent = 'Tubelight 2 Off';
+  } else {
+    // Fallback for unknown devices
+    onBtn.textContent = 'Turn ON';
+    offBtn.textContent = 'Turn OFF';
+  }
+}
 
 function sendRequest(method, url, data) {
   const xhr = new XMLHttpRequest();
@@ -35,6 +48,13 @@ function sendRequest(method, url, data) {
   };
   xhr.send(JSON.stringify(data));
 }
+
+deviceIdSelect.addEventListener('change', () => {
+  const deviceId = deviceIdSelect.value;
+
+  // Update button texts based on selected device ID
+  updateButtonTexts(deviceId);
+});
 
 onBtn.addEventListener('click', () => {
   sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceIdSelect.value}/toggle`, {
