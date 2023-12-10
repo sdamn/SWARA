@@ -1,53 +1,82 @@
 body {
     font-family: Roboto, sans-serif;
-    margin: 20px;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--surface-color);
   }
   
   h1 {
-    text-align: center;
-    font-size: 1.5em;
+    font-size: 1.75em;
     margin-bottom: 20px;
     color: var(--primary-color);
   }
   
   .container {
     display: flex;
-    margin-bottom: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .container > * {
+    margin: 10px;
   }
   
   label {
-    width: 100px;
+    width: 150px;
     text-align: right;
-    margin-right: 10px;
+    font-weight: bold;
     color: var(--on-surface-color);
   }
   
   input {
     flex: 1;
-    padding: 5px;
+    padding: 5px 10px;
     border: 1px solid var(--outline-color);
     border-radius: 4px;
     background-color: var(--surface-color);
+    font-size: 16px;
   }
   
   .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 20px;
   }
   
   button {
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     border-radius: 4px;
-    background-color: var(--primary-container);
-    color: var(--on-primary-container);
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
     cursor: pointer;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease-in-out;
   }
   
-  #onBtn:hover,
-  #offBtn:hover {
+  #onBtn {
+    background-color: var(--success-color);
+    color: var(--on-success-color);
+  }
+  
+  #offBtn {
+    background-color: var(--error-color);
+    color: var(--on-error-color);
+  }
+  
+  button:hover {
     background-color: var(--primary-color);
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      width: 700px;
+    }
   }
   
