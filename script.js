@@ -1,73 +1,24 @@
-// Use navigator.storage API to estimate storage usage and quota
-navigator.storage.estimate().then(estimate => {
-  console.log(`Usage: ${estimate.usage}, Quota: ${estimate.quota}`);
-});
+// script.js
+async function uploadImage() {
+  var formData = new FormData(document.getElementById('upload-form'));
 
-const deviceIdSelect = document.getElementById('deviceId');
-const onBtn = document.getElementById('onBtn');
-const offBtn = document.getElementById('offBtn');
+  try {
+      const clarifaiApiKey = 'd37e2b44a081440592f7bdb3d3726e39'; // Replace with your Clarifai API key
 
-const bodyData = {
-  "request": {
-    "state": 1, // Initial state (ON)
-    "brightness": 0 // Brightness level
-  },
-  "deviceNumber": 3 // Device number
-};
+      const clarifaiResponse = await fetch('https://api.clarifai.com/v2/models/d16f390eb32cad478c7ae150069bd2c6/outputs', {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${clarifaiApiKey}`
+          },
+          body: formData
+      });
 
-const bodyDataOff = {
-  "request": {
-    "state": 0 // Turn device off
-  },
-  "deviceNumber": 3 // Device number
-};
+      const clarifaiData = await clarifaiResponse.json();
+      const recognizedObjects = clarifaiData.outputs[0].data.concepts.map(concept => concept.name);
 
-function updateButtonTexts(deviceId) {
-  if (deviceId === '646838f4ea1d1bf0bd4a01a5') {
-    onBtn.textContent = 'Tubelight 1 On';
-    offBtn.textContent = 'Tubelight 1 Off';
-  } else if (deviceId === '648c5ff203543e4e86c0d086') {
-    onBtn.textContent = 'Tubelight 2 On';
-    offBtn.textContent = 'Tubelight 2 Off';
-  } else {
-    // Fallback for unknown devices
-    onBtn.textContent = 'Turn ON';
-    offBtn.textContent = 'Turn OFF';
+      document.getElementById('result').innerText = 'Recognized Objects: ' + recognizedObjects.join(', ');
+  } catch (error) {
+      console.error('Error:', error);
+      document.getElementById('result').innerText = 'Error occurred during recognition.';
   }
 }
-
-function sendRequest(method, url, data) {
-  return fetch(url, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer 68300e1918276185d6a748322ae161319f93bd36`
-    },
-    body: JSON.stringify(data),
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .then(data => {
-    // Replace console.log with alert
-    alert('Device state updated successfully.');
-  })
-  .catch(error => {
-    // Replace console.error with alert
-    alert('Error: ' + error.message);
-  });
-}
-
-onBtn.addEventListener('click', () => {
-  sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceIdSelect.value}/toggle`, {
-    ...bodyData, // Spread existing data
-    toggle: 1 // Add toggle property for turning ON
-  });
-});
-
-offBtn.addEventListener('click', () => {
-  sendRequest('POST', `https://backend.tinxy.in/v2/devices/${deviceIdSelect.value}/toggle`, bodyDataOff); // Use specific bodyDataOff object for turning off
-});

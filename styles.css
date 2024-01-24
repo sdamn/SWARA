@@ -1,0 +1,15 @@
+/* styles.css */
+body {
+  font-family: 'Comfortaa', cursive;
+  text-align: center;
+  margin: 20px;
+}
+
+#upload-form {
+  margin-top: 20px;
+}
+
+#result {
+  margin-top: 20px;
+  font-style: italic;
+}

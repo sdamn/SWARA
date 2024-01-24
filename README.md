@@ -1,1 +1,1 @@
-# SWARA
+Image Recognition Using Clarifai!
