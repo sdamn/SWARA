@@ -13,10 +13,19 @@ async function uploadImage() {
           body: formData
       });
 
-      const clarifaiData = await clarifaiResponse.json();
-      const recognizedObjects = clarifaiData.outputs[0].data.concepts.map(concept => concept.name);
+      if (!clarifaiResponse.ok) {
+          throw new Error(`Clarifai API request failed with status ${clarifaiResponse.status}`);
+      }
 
-      document.getElementById('result').innerText = 'Recognized Objects: ' + recognizedObjects.join(', ');
+      const clarifaiData = await clarifaiResponse.json();
+
+      // Ensure that the expected properties exist in the response
+      if (clarifaiData && clarifaiData.outputs && clarifaiData.outputs[0] && clarifaiData.outputs[0].data) {
+          const recognizedObjects = clarifaiData.outputs[0].data.concepts.map(concept => concept.name);
+          document.getElementById('result').innerText = 'Recognized Objects: ' + recognizedObjects.join(', ');
+      } else {
+          throw new Error('Unexpected response format from Clarifai API');
+      }
   } catch (error) {
       console.error('Error:', error);
       document.getElementById('result').innerText = 'Error occurred during recognition.';
