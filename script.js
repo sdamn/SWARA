@@ -6,21 +6,11 @@ async function uploadImage() {
         const imaggaApiKey = 'acc_a0d0c9dfc242ab1'; // Replace with your Imagga API key
         const imaggaApiSecret = 'Y1d1067268af5cb0f2e06fe8200822156'; // Replace with your Imagga API secret
 
-        // Get the current date
-        const currentDate = new Date();
-
-        // Estimate the remaining credits based on a monthly limit (1000 credits for Imagga's free plan)
-        const monthlyCreditLimit = 1000;
-        const creditsUsedPerRequest = 1; // This may vary based on Imagga's pricing model
-        const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-        const remainingCredits = Math.max(monthlyCreditLimit - (creditsUsedPerRequest * daysInMonth), 0);
-
-        alert(`You have approximately ${remainingCredits} credits remaining for this month.`);
-
+        const credentials = btoa(`${imaggaApiKey}:${imaggaApiSecret}`);
         const imaggaResponse = await fetch('https://api.imagga.com/v2/tags', {
             method: 'POST',
             headers: {
-                'Authorization': `Basic ${btoa(`${imaggaApiKey}:${imaggaApiSecret}`)}`
+                'Authorization': `Basic ${credentials}`
             },
             body: formData
         });
